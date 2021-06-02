@@ -1,12 +1,12 @@
 import {useCartState} from '../context/cart'
 
 
-function CartItem(name, quantity, line_total) {
+function CartItem({name, quantity, line_total}) {
     return (
         <div>
             <p>{name}</p>
             <p>{quantity}</p>
-            <p>{line_total?.formatted_with_symbol}</p>
+            <p>{line_total.formatted_with_symbol}</p>
         </div>
     )
 }
@@ -29,7 +29,7 @@ export default function CartPage() {
 
             <hr />
 
-            <p><strong>Sub total</strong>{subtotal?.formatted_with_symbol}</p>    
+            <p><strong>Sub total</strong>{subtotal.formatted_with_symbol}</p>    
 
         </div>
     )
