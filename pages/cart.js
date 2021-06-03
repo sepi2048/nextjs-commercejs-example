@@ -1,12 +1,35 @@
-import {useCartState} from '../context/cart'
+import Commerce from '@chec/commerce.js';
+import {useCartDispatch, useCartState} from '../context/cart'
+import commerce from '../lib/commerce'
 
 
-function CartItem({name, quantity, line_total}) {
+function CartItem({id, name, quantity, line_total}) {
+    
+    const {setCart} = useCartDispatch();
+
+    const handleUpdateCart = ({cart}) => setCart(cart);
+
+    const removeItem = () => commerce.cart.remove(id).then(handleUpdateCart);
+
+    const decrementQuantity = () => {
+      quantity > 1 
+      ? commerce.cart
+          .update(id, {quantity: quantity - 1})
+          .then(handleUpdateCart) 
+      : removeItem();
+    };
+
+    const incrementQuantity = () => commerce.cart.update(id, {quantity: quantity +1}).then(handleUpdateCart)
     return (
         <div>
             <p>{name}</p>
             <p>{quantity}</p>
             <p>{line_total.formatted_with_symbol}</p>
+            <div>
+                <button onClick={decrementQuantity}>-</button>
+                <button onClick={incrementQuantity}>+</button>
+            </div>
+            <button onClick={removeItem}>&times;</button>
         </div>
     )
 }
